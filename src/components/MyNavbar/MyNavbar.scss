@@ -1,0 +1,79 @@
+.Navbar {
+    display: flex;
+    justify-content: space-between;
+    height: 64px;
+    padding: 0.5rem;
+    background-color: #122e5e;
+    color: white;
+    position: sticky;
+    z-index: 999;
+    overflow: hidden;
+
+    .left-side {
+        display: flex;
+        gap: 2.5rem;
+
+        a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        hr {
+            margin: 0;
+            opacity: 1;
+            width: 0%;
+            transition: width 0.2s ease-in-out;
+        }
+
+        .logo-container {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+
+            a {
+                height: 100%;
+                display: flex;
+                gap: 1rem;
+                align-items: center;
+
+                img {
+                    height: 100%;
+                    object-fit: contain;
+                    width: fit-content;
+                }
+            }
+        }
+
+        .pages {
+            display: flex;
+            gap: 2rem;
+
+            a {
+                align-self: center;
+
+                &:hover {
+                    hr {
+                        width: 100%;
+                    }
+                }
+            }
+        }
+
+    }
+
+    .right-side {
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+
+        img {
+            height: 100%;
+            object-fit: contain;
+            width: fit-content
+        }
+    }
+
+    @media only screen and (max-width : 644px) {
+        // display: none;
+    }
+}

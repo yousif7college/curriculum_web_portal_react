@@ -1,0 +1,98 @@
+.Login {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-image: url(../../assets/images/main2.jpg); // خلفية الصفحة
+    background-size: cover;
+    background-position: center;
+    
+    form {
+        margin: 0 2rem;
+        width: 25rem;
+        background-color: rgba(255, 255, 255, 0.8); // خلفية النموذج شفافة
+        padding: 30px;
+        border-radius: 50px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); // ظل
+
+        h1 {
+            text-align: center;
+            font-size: 1.5em;
+            color: #228cdc; // لون العنوان أزرق
+        }
+
+        .input-box {
+            font-size: 1.1em;
+            position: relative;
+            margin-bottom: 20px;
+
+            input {
+                width: 100%;
+                padding: 10px 40px 10px 10px;
+                box-sizing: border-box;
+                border: 1px solid #ccc; // لون حدود الإدخال
+                border-radius: 4px;
+                margin-bottom: 5px;
+            }
+
+            .icon {
+                position: absolute;
+                top: 50%;
+                transform: translateY(-50%);
+                right: 15px;
+                color: #8e75e4; // لون الأيقونة بنفسجي
+            }
+        }
+
+        .remember-forget {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+
+            label {
+                color: #555; // لون النص
+            }
+
+            a {
+                color: #b52b79; // لون الرابط وردي
+                text-decoration: none;
+
+                &:hover {
+                    text-decoration: underline;
+                }
+            }
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            font-size: 1.1em;
+            box-sizing: border-box;
+            background-color: #7464bc; // لون الزر بنفسجي
+            color: #fff; // لون النص أبيض
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+
+            &:hover {
+                background-color: #7b1d52; // لون الزر عند التحويل أرجواني
+            }
+        }
+
+        .register-link {
+            text-align: center;
+            margin-top: 20px;
+
+            a {
+                color: #b52b79; // لون الرابط وردي
+                text-decoration: none;
+
+                &:hover {
+                    text-decoration: underline;
+                }
+            }
+        }
+        
+    }
+}
