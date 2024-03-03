@@ -14,13 +14,13 @@ export default function Courses() {
 
 
     const headers = [
-        "Course_id",
+        "id",
         "Department_id",
-        "Stage_id",
+        "Stage",
         "Title_english",
         "Title_arabic",
-        "Course_language",
-        "Course_coordinator",
+        "Language",
+        "Coordinator_name",
         "Note",
         "Created_at",
         "Updated_at",

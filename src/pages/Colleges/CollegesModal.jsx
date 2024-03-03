@@ -19,11 +19,8 @@ export default function CollegesModal({ show, setShow }) {
                 <h3>Are you sure?</h3>
                 :
                 <form className="d-flex flex-column gap-2">
-                    <FormInput type="text" label="College_id:" disabled={show === "show"} />
-                    <FormInput type="text" label="College_name:" disabled={show === "show"} />
-                    <FormInput type="text" label="Unevirsity_id" disabled={show === "show"} />
-                    <FormInput type="text" label="Creted_at:" disabled={show === "show"} />
-                    <FormInput type="text" label="Updated_at:" disabled={show === "show"} />
+                    <FormInput neme="id" type="text" label="id:" disabled={show === "show"} />
+                    <FormInput neme="college_name" type="text" label="College Name:" disabled={show === "show"} />
                 </form>
 
         } footer={

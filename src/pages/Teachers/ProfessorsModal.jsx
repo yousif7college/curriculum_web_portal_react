@@ -15,14 +15,12 @@ export default function ProffesorsModal({ show, setShow }) {
                 <h3>Are you sure?</h3>
                 :
                 <form className="d-flex flex-column gap-2">
-                    <FormInput type="text" label="Teacher_id:" disabled={show === "show"} />
-                    <FormInput type="text" label="First_name:" disabled={show === "show"} />
-                    <FormInput type="text" label="Last_name" disabled={show === "show"} />
-                    <FormInput type="text" label="Email:" disabled={show === "show"} />
-                    <FormInput type="text" label="Phone_number:" disabled={show === "show"} />
-                    <FormInput type="text" label="Note:" disabled={show === "show"} />
-                    <FormInput type="text" label="Created_at:" disabled={show === "show"} />
-                    <FormInput type="text" label="Updated_at:" disabled={show === "show"} />
+                    <FormInput name="id" type="text" label="id:" disabled={show === "show"} />
+                    <FormInput name="first_name" type="text" label="First_name:" disabled={show === "show"} />
+                    <FormInput name="last_name" type="text" label="Last_name" disabled={show === "show"} />
+                    <FormInput name="email" type="text" label="Email:" disabled={show === "show"} />
+                    <FormInput name="phone_number" type="text" label="Phone_number:" disabled={show === "show"} />
+                    <FormInput name="note" type="text" label="Note:" disabled={show === "show"} />
                 </form>
 
         } footer={

@@ -12,8 +12,7 @@ export default function Colleges() {
     const [showModal, setShowModal] = useState(false)
     const headers = [
         "College_id",
-        "College_Name",
-        "Unevirsity_id",
+        "College_name",
         "Created_at",
         "Updated_at",
         ""
@@ -42,7 +41,6 @@ export default function Colleges() {
                             <td></td>
                             <td></td>
                             <td></td>
-                            <td></td>
                             <td>
                                 <div className="actionBtns">
                                     <Button variant="success" onClick={() => setShowModal("show")}><FaEye /></Button>
@@ -56,7 +54,6 @@ export default function Colleges() {
                             <td></td>
                             <td></td>
                             <td></td>
-                            <td></td>
                             <td>
                                 <div className="actionBtns">
                                     <Button variant="success" onClick={() => setShowModal("show")}><FaEye /></Button>
@@ -66,7 +63,6 @@ export default function Colleges() {
                             </td>
                         </tr>
                         <tr >
-                            <td></td>
                             <td></td>
                             <td></td>
                             <td></td>
