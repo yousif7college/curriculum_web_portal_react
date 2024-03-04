@@ -15,7 +15,6 @@ export default function DepartmentsModal({ show, setShow }) {
                 <h3>Are you sure?</h3>
                 :
                 <form className="d-flex flex-column gap-2">
-                    <FormInput name="id" type="text" label="id:" disabled={show === "show"} />
                     <FormInput name="department_name" type="text" label="Department_name:" disabled={show === "show"} />
                     <FormInput name="college_id" type="text" label="College_id" disabled={show === "show"} />
                 </form>

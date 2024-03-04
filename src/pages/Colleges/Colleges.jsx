@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import "./Colleges.scss"
 import MyBanner from '../../components/MyBanner/MyBanner'
 import coursesImg from '../../assets/images/homeBg.jpg'
@@ -6,6 +6,7 @@ import { Button, Container, Table } from 'react-bootstrap'
 import CollegesModal from './CollegesModal'
 import { FaEye, FaPen, FaTrash } from 'react-icons/fa'
 import { MdOutlineLaptopChromebook } from "react-icons/md";
+import useHTTP from '../../hooks/useHTTP'
 
 
 export default function Colleges() {
@@ -17,6 +18,30 @@ export default function Colleges() {
         "Updated_at",
         ""
     ]
+
+    const [selectedCollege, setSelectedCollege] = useState({})
+
+    const handleShowDelete = (college) => {
+        setSelectedCollege(college)
+        setShowModal("delete")
+    }
+
+    const handleShowEdit = (college) => {
+        setSelectedCollege(college)
+        setShowModal("edit")
+    }
+
+    const handleShowView = (college) => {
+        setSelectedCollege(college)
+        setShowModal("view")
+    }
+
+    const [sendHTTP, httpRes] = useHTTP();
+    useEffect(() => {
+        document.title = "CWP - Colleges"
+        sendHTTP('/colleges', 'GET');
+    }, [])
+
     return (
         <div className='Colleges' >
             <MyBanner title="Colleges" img={coursesImg} icon={<MdOutlineLaptopChromebook />} />
@@ -32,53 +57,32 @@ export default function Colleges() {
                                 return <th key={i}>{header}</th>
                             })}
 
-
                         </tr>
                     </thead>
                     <tbody>
-                        <tr >
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td>
-                                <div className="actionBtns">
-                                    <Button variant="success" onClick={() => setShowModal("show")}><FaEye /></Button>
-                                    <Button variant="primary" onClick={() => setShowModal("edit")}><FaPen /></Button>
-                                    <Button variant="danger" onClick={() => setShowModal("delete")}><FaTrash /></Button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr >
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td>
-                                <div className="actionBtns">
-                                    <Button variant="success" onClick={() => setShowModal("show")}><FaEye /></Button>
-                                    <Button variant="primary" onClick={() => setShowModal("edit")}><FaPen /></Button>
-                                    <Button variant="danger" onClick={() => setShowModal("delete")}><FaTrash /></Button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr >
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td>
-                                <div className="actionBtns">
-                                    <Button variant="success" onClick={() => setShowModal("show")}><FaEye /></Button>
-                                    <Button variant="primary" onClick={() => setShowModal("edit")}><FaPen /></Button>
-                                    <Button variant="danger" onClick={() => setShowModal("delete")}><FaTrash /></Button>
-                                </div>
-                            </td>
-                        </tr>
+                        {httpRes?.loading && <tr><td colSpan="5">Loading...</td></tr>}
+                        {httpRes?.error && <tr><td colSpan="5">Error Happened</td></tr>}
+                        {httpRes?.data && httpRes?.data?.data?.map((college, i) => {
+                            return (
+                                <tr key={i}>
+                                    <td>{college.id}</td>
+                                    <td>{college.name}</td>
+                                    <td>{college.created_at}</td>
+                                    <td>{college.updated_at}</td>
+                                    <td>
+                                        <div className="actionBtns">
+                                            <Button variant="success" onClick={() => handleShowView(college)}><FaEye /></Button>
+                                            <Button variant="primary" onClick={() => handleShowEdit(college)}><FaPen /></Button>
+                                            <Button variant="danger" onClick={() => handleShowDelete(college)}><FaTrash /></Button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            )
+                        })}
                     </tbody>
                 </Table>
             </Container>
-            <CollegesModal show={showModal} setShow={setShowModal} />
+            <CollegesModal show={showModal} setShow={setShowModal} selectedCollege={selectedCollege} />
         </div>
     )
 }

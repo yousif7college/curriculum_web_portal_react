@@ -1,6 +1,6 @@
 import "./MyNavbar.scss"
 import logo from "../../assets/images/logo.png"
-import { Button, Image, Navbar, NavDropdown, Offcanvas, Nav } from "react-bootstrap"
+import { Button, Image } from "react-bootstrap"
 import { Link, useNavigate } from "react-router-dom"
 
 export default function MyNavbar() {
@@ -24,7 +24,7 @@ export default function MyNavbar() {
                     <Link to="/courses">courses<hr /></Link>
                     <Link to="/professors">professors<hr /></Link>
                     <Link to="/users">Users<hr /></Link>
-                    
+
                 </div>
             </div>
             <div className="right-side">

@@ -7,7 +7,6 @@ import CoursesModal from './CoursesModal'
 import { FaEye, FaPen, FaTrash } from 'react-icons/fa'
 import { BsBook } from "react-icons/bs";
 
-
 export default function Courses() {
 
     const [showModal, setShowModal] = useState(false)

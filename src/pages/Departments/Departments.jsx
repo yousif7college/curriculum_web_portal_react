@@ -1,10 +1,11 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import "./Departments.scss"
 import MyBanner from '../../components/MyBanner/MyBanner'
 import coursesImg from '../../assets/images/homeBg.jpg'
 import { Button, Container, Table } from 'react-bootstrap'
 import DepartmentsModal from './DepartmentsModal'
 import { FaEye, FaPen, FaTrash } from 'react-icons/fa'
+import useHTTP from '../../hooks/useHTTP'
 
 export default function Departments() {
     const [showModal, setShowModal] = useState(false)
@@ -16,6 +17,13 @@ export default function Departments() {
         "Updated_at",
         ""
     ]
+
+    const [sendHTTP, httpRes] = useHTTP();
+
+    useEffect(() => {
+        sendHTTP('/departments', 'GET');
+    }, [])
+
     return (
         <div className='Departments'>
             <MyBanner title="Dapartments" img={coursesImg} />
@@ -34,48 +42,25 @@ export default function Departments() {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr >
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td>
-                                <div className="actionBtns">
-                                    <Button variant="success" onClick={() => setShowModal("show")}><FaEye /></Button>
-                                    <Button variant="primary" onClick={() => setShowModal("edit")}><FaPen /></Button>
-                                    <Button variant="danger" onClick={() => setShowModal("delete")}><FaTrash /></Button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr >
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td>
-                                <div className="actionBtns">
-                                    <Button variant="success" onClick={() => setShowModal("show")}><FaEye /></Button>
-                                    <Button variant="primary" onClick={() => setShowModal("edit")}><FaPen /></Button>
-                                    <Button variant="danger" onClick={() => setShowModal("delete")}><FaTrash /></Button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr >
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td>
-                                <div className="actionBtns">
-                                    <Button variant="success" onClick={() => setShowModal("show")}><FaEye /></Button>
-                                    <Button variant="primary" onClick={() => setShowModal("edit")}><FaPen /></Button>
-                                    <Button variant="danger" onClick={() => setShowModal("delete")}><FaTrash /></Button>
-                                </div>
-                            </td>
-                        </tr>
+                        {console.log("🍅 departments", httpRes)}
+                        {httpRes?.data?.map((department, i) => {
+                            return (
+                                <tr key={i}>
+                                    <td>{department.id}</td>
+                                    <td>{department.name}</td>
+                                    <td>{department.college_id}</td>
+                                    <td>{department.created_at}</td>
+                                    <td>{department.updated_at}</td>
+                                    <td>
+                                        <div className="actionBtns">
+                                            <Button variant="success" onClick={() => setShowModal("show")}><FaEye /></Button>
+                                            <Button variant="primary" onClick={() => setShowModal("edit")}><FaPen /></Button>
+                                            <Button variant="danger" onClick={() => setShowModal("delete")}><FaTrash /></Button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            )
+                        })}
                     </tbody>
                 </Table>
             </Container>
