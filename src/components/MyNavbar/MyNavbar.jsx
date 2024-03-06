@@ -22,7 +22,7 @@ export default function MyNavbar() {
                     <Link to="/colleges">Colleges<hr /></Link>
                     <Link to="/Departments">Departments<hr /></Link>
                     <Link to="/courses">courses<hr /></Link>
-                    <Link to="/professors">professors<hr /></Link>
+                    <Link to="/teachers">teachers<hr /></Link>
                     <Link to="/users">Users<hr /></Link>
 
                 </div>

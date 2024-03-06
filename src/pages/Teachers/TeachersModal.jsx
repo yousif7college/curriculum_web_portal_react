@@ -1,31 +1,27 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { Button } from 'react-bootstrap'
 import FormInput from '../../components/FormInput/FormInput'
 import MyModal from '../../components/MyModal/MyModal'
-import useHTTP from '../../hooks/useHTTP'
-import { useForm } from 'react-hook-form'
-import useOptions from '../../hooks/useOptions'
+import useHTTP from '../../hooks/useHTTP';
+import { useForm } from 'react-hook-form';
 
-export default function DepartmentsModal({ show, setShow, selectedDepartment, refresh }) {
+export default function TeachersModal({ show, setShow, selectedTeacher, refresh }) {
 
     const [sendHTTP, httpRes] = useHTTP();
-    const getOptions = useOptions();
-
-    const [colleges, setColleges] = useState([]);
 
     const { reset, register, handleSubmit } = useForm();
 
     const handleSave = async (data) => {
         if (show === "add") {
-            sendHTTP('/departments', 'POST', data);
+            sendHTTP('/teachers', 'POST', data);
         } else if (show === "edit") {
-            sendHTTP(`/departments/${selectedDepartment?.id}`, 'PUT', data);
+            sendHTTP(`/teachers/${selectedTeacher?.id}`, 'PUT', data);
         }
         console.log("🍅 Saved", data);
     }
 
     const handleDelete = (data) => {
-        sendHTTP(`/departments/${data?.id}`, 'DELETE');
+        sendHTTP(`/teachers/${data?.id}`, 'DELETE');
         console.log("🍅 Deleted", data?.id);
     }
 
@@ -38,24 +34,23 @@ export default function DepartmentsModal({ show, setShow, selectedDepartment, re
 
     useEffect(() => {
         if (show === "add") {
-            reset({ name: "", college_id: "" })
+            reset({ first_name: "", last_name: "", email: "", phone_number: "", note: "" })
         } else {
-            reset(selectedDepartment)
+            reset(selectedTeacher)
         }
     }, [show])
 
-    useEffect(() => {
-        getOptions("/colleges").then((data) => setColleges(data));
-    }, [])
-
     return (
-        <MyModal show={show} setShow={setShow} title="Department" body={
+        <MyModal show={show} setShow={setShow} title="Teachers" body={
             show === "delete" ?
                 <h3>Are you sure?</h3>
                 :
                 <form className="d-flex flex-column gap-2">
-                    <FormInput name="name" type="text" label="Department Name" register={register} disabled={show === "view"} />
-                    <FormInput name="college_id" type="select" label="College" options={colleges} register={register} disabled={show === "view"} />
+                    <FormInput name="first_name" type="text" label="First_name" register={register} disabled={show === "view"} />
+                    <FormInput name="last_name" type="text" label="Last_name" register={register} disabled={show === "view"} />
+                    <FormInput name="email" type="email" label="Email" register={register} disabled={show === "view"} />
+                    <FormInput name="phone_number" type="number" label="Phone_number" register={register} disabled={show === "view"} />
+                    <FormInput name="note" type="text" label="Note" register={register} disabled={show === "view"} />
                 </form>
 
         } footer={

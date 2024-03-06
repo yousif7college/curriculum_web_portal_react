@@ -3,42 +3,44 @@ import { Button } from 'react-bootstrap'
 import FormInput from '../../components/FormInput/FormInput'
 import MyModal from '../../components/MyModal/MyModal'
 import useHTTP from '../../hooks/useHTTP';
+import { useForm } from 'react-hook-form';
 
 
 
 
 
-export default function CollegesModal({ show, setShow, selectedCollege }) {
+export default function CollegesModal({ show, setShow, selectedCollege, refresh }) {
 
     const [sendHTTP, httpRes] = useHTTP();
 
-    const handleSave = async () => {
+    const { reset, register, handleSubmit } = useForm();
+
+    const handleSave = async (data) => {
         if (show === "add") {
-            sendHTTP('/colleges', 'POST', { name: document.querySelector("#name").value });
+            sendHTTP('/colleges', 'POST', data);
+        } else if (show === "edit") {
+            sendHTTP(`/colleges/${selectedCollege?.id}`, 'PUT', data);
         }
-        else if (show === "edit") {
-            sendHTTP(`/colleges/${selectedCollege?.id}`, 'PUT', { name: document.querySelector("#name").value });
-        }
-        console.log("🍅 Saved", document.querySelector("#name").value);
+        console.log("🍅 Saved", data);
     }
 
-    const handleDelete = () => {
-        sendHTTP(`/colleges/${selectedCollege?.id}`, 'DELETE');
-        console.log("🍅 Deleted");
+    const handleDelete = (data) => {
+        sendHTTP(`/colleges/${data?.id}`, 'DELETE');
+        console.log("🍅 Deleted", data?.id);
     }
 
     useEffect(() => {
         if (httpRes?.data) {
             setShow(false);
+            refresh();
         }
     }, [httpRes?.data])
 
     useEffect(() => {
         if (show === "add") {
-            document.querySelector("#name").value = "";
-        }
-        else if (show === "edit" || show === "view") {
-            document.querySelector("#name").value = selectedCollege?.name;
+            reset({ name: "" })
+        } else {
+            reset(selectedCollege)
         }
     }, [show])
 
@@ -48,19 +50,19 @@ export default function CollegesModal({ show, setShow, selectedCollege }) {
                 <h3>Are you sure?</h3>
                 :
                 <form className="d-flex flex-column gap-2">
-                    <FormInput id="name" name="name" type="text" label="College Name:" disabled={show === "view"} />
+                    <FormInput name="name" type="text" label="College Name" register={register} disabled={show === "view"} />
                 </form>
 
         } footer={
             show === "delete" ?
                 <>
                     <Button variant="secondary" onClick={() => setShow(false)}>No</Button>
-                    <Button variant="danger" onClick={handleDelete}>Yes</Button>
+                    <Button variant="danger" onClick={handleSubmit(handleDelete)}>Yes</Button>
                 </>
                 :
                 <>
                     <Button variant="secondary" onClick={() => setShow(false)}>Close</Button>
-                    <Button variant="success" onClick={handleSave}>Save</Button>
+                    <Button variant="success" onClick={handleSubmit(handleSave)}>Save</Button>
                 </>
         } />
     )

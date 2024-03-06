@@ -1,58 +1,56 @@
-import React, {useEffect, useState } from 'react'
-import "./Users.scss"
+import React, { useEffect, useState } from 'react'
+import "./Teachers.scss"
 import MyBanner from '../../components/MyBanner/MyBanner'
 import coursesImg from '../../assets/images/homeBg.jpg'
 import { Button, Container, Table } from 'react-bootstrap'
-import UsersModal from './UsersModal'
+import TeachersModal from './TeachersModal'
 import { MdOutlineLaptopChromebook } from "react-icons/md";
 import { FaEye, FaPen, FaTrash } from 'react-icons/fa'
 import useHTTP from '../../hooks/useHTTP'
 
-export default function Users() {
+export default function Teachers() {
     const [showModal, setShowModal] = useState(false)
     const headers = [
-        "User_id",
+        "Teacher_id",
         "First_name",
         "Last_name",
         "Email",
-        "Password",
-        "Edge",
-        "Gender",
+        "Phone_number",
         "Note",
         "Created_at",
         "Updated_at",
         ""
     ]
 
-    const [selectedUser, setSelectedUser] = useState({})
+    const [selectedTeacher, setSelectedTeacher] = useState({})
 
-    const handleShowDelete = (user) => {
-        setSelectedUser(user)
+    const handleShowDelete = (teacher) => {
+        setSelectedTeacher(teacher)
         setShowModal("delete")
     }
 
-    const handleShowEdit = (user) => {
-        setSelectedUser(user)
+    const handleShowEdit = (teacher) => {
+        setSelectedTeacher(teacher)
         setShowModal("edit")
     }
 
-    const handleShowView = (user) => {
-        setSelectedUser(user)
+    const handleShowView = (teacher) => {
+        setSelectedTeacher(teacher)
         setShowModal("view")
     }
 
     const [sendHTTP, httpRes] = useHTTP();
     useEffect(() => {
-        document.title = "CWP - Users"
+        document.title = "CWP - Teachers"
         refresh();
     }, [])
 
     function refresh() {
-        sendHTTP('/users', 'GET');
+        sendHTTP('/teachers', 'GET');
     }
     return (
-        <div className='Users' >
-            <MyBanner title="Users" img={coursesImg} icon={<MdOutlineLaptopChromebook />} />
+        <div className='Teachers' >
+            <MyBanner title="Teachers" img={coursesImg} icon={<MdOutlineLaptopChromebook />} />
 
             <Container className="mt-5">
                 <div className="mb-3 d-flex gap-2">
@@ -70,24 +68,22 @@ export default function Users() {
                     <tbody>
                         {httpRes?.loading && <tr><td colSpan="5">Loading...</td></tr>}
                         {httpRes?.error && <tr><td colSpan="5">Error Happened</td></tr>}
-                        {httpRes?.data && httpRes?.data?.data?.map((user, i) => {
+                        {httpRes?.data && httpRes?.data?.data?.map((teacher, i) => {
                             return (
                                 <tr key={i}>
-                                    <td>{user.id}</td>
-                                    <td>{user.first_name}</td>
-                                    <td>{user.last_name}</td>
-                                    <td>{user.email}</td>
-                                    <td>{user.password}</td>
-                                    <td>{user.age}</td>
-                                    <td>{user.gender}</td>
-                                    <td>{user.note}</td>
-                                    <td>{user.created_at}</td>
-                                    <td>{user.updated_at}</td>
+                                    <td>{teacher.id}</td>
+                                    <td>{teacher.first_name}</td>
+                                    <td>{teacher.last_name}</td>
+                                    <td>{teacher.email}</td>
+                                    <td>{teacher.phone_number}</td>
+                                    <td>{teacher.note}</td>
+                                    <td>{teacher.created_at}</td>
+                                    <td>{teacher.updated_at}</td>
                                     <td>
                                         <div className="actionBtns">
-                                            <Button variant="success" onClick={() => handleShowView(user)}><FaEye /></Button>
-                                            <Button variant="primary" onClick={() => handleShowEdit(user)}><FaPen /></Button>
-                                            <Button variant="danger" onClick={() => handleShowDelete(user)}><FaTrash /></Button>
+                                            <Button variant="success" onClick={() => handleShowView(teacher)}><FaEye /></Button>
+                                            <Button variant="primary" onClick={() => handleShowEdit(teacher)}><FaPen /></Button>
+                                            <Button variant="danger" onClick={() => handleShowDelete(teacher)}><FaTrash /></Button>
                                         </div>
                                     </td>
                                 </tr>
@@ -96,7 +92,7 @@ export default function Users() {
                     </tbody>
                 </Table>
             </Container>
-            <UsersModal show={showModal} setShow={setShowModal} selectedUser={selectedUser} refresh={refresh} />
+            <TeachersModal show={showModal} setShow={setShowModal} selectedTeacher={selectedTeacher} refresh={refresh} />
         </div>
     )
 }

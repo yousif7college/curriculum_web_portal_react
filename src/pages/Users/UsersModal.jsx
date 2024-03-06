@@ -1,40 +1,71 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Button } from 'react-bootstrap'
 import FormInput from '../../components/FormInput/FormInput'
 import MyModal from '../../components/MyModal/MyModal'
+import useHTTP from '../../hooks/useHTTP';
+import { useForm } from 'react-hook-form';
+import useOptions from '../../hooks/useOptions';
 
-export default function UsersModal({ show, setShow }) {
+export default function UsersModal({ show, setShow, selectedUser, refresh }) {
 
-    const handleSave = () => {
-        console.log("🍅 Saved");
+    const [sendHTTP, httpRes] = useHTTP();
+
+    const { reset, register, handleSubmit } = useForm();
+    const getOptions = useOptions();
+
+    const handleSave = async (data) => {
+        if (show === "add") {
+            sendHTTP('/users', 'POST', data);
+        } else if (show === "edit") {
+            sendHTTP(`/users/${selectedUser?.id}`, 'PUT', data);
+        }
+        console.log("🍅 Saved", data);
     }
 
+    const handleDelete = (data) => {
+        sendHTTP(`/users/${data?.id}`, 'DELETE');
+        console.log("🍅 Deleted", data?.id);
+    }
+
+    useEffect(() => {
+        if (httpRes?.data) {
+            setShow(false);
+            refresh();
+        }
+    }, [httpRes?.data])
+
+    useEffect(() => {
+        if (show === "add") {
+            reset({ first_name: "", last_name: "", email: "", password: "", age: 0, gender: "m" })
+        } else {
+            reset(selectedUser)
+        }
+    }, [show])
+
     return (
-        <MyModal show={show} setShow={setShow} title="Users" body={
+        <MyModal show={show} setShow={setShow} title="User" body={
             show === "delete" ?
                 <h3>Are you sure?</h3>
                 :
                 <form className="d-flex flex-column gap-2">
-                    <FormInput name="id" type="text" label="User_id:" disabled={show === "show"} />
-                    <FormInput name="first_name" type="text" label="First_name:" disabled={show === "show"} />
-                    <FormInput name="last_name" type="text" label="Last_name:" disabled={show === "show"} />
-                    <FormInput name="email" type="text" label="Email:" disabled={show === "show"} />
-                    <FormInput name="password" type="text" label="Password:" disabled={show === "show"} />
-                    <FormInput name="age" type="text" label="Age:" disabled={show === "show"} />
-                    <FormInput name="gender" type="text" label="Gender:" disabled={show === "show"} />
-                    <FormInput name="gender" type="text" label="Note:" disabled={show === "show"} />
+                    <FormInput name="first_name" type="text" label="First_name" register={register} disabled={show === "view"} />
+                    <FormInput name="last_name" type="text" label="Last_name" register={register} disabled={show === "view"} />
+                    <FormInput name="email" type="text" label="Email" register={register} disabled={show === "view"} />
+                    <FormInput name="password" type="text" label="Password" register={register} disabled={show === "view"} />
+                    <FormInput name="age" type="text" label="Age" register={register} disabled={show === "view"} />
+                    <FormInput name="gender" type="select" label="Gender" options={getOptions("gender")} register={register} disabled={show === "view"} />
                 </form>
 
         } footer={
             show === "delete" ?
                 <>
                     <Button variant="secondary" onClick={() => setShow(false)}>No</Button>
-                    <Button variant="danger" onClick={handleSave}>Yes</Button>
+                    <Button variant="danger" onClick={handleSubmit(handleDelete)}>Yes</Button>
                 </>
                 :
                 <>
                     <Button variant="secondary" onClick={() => setShow(false)}>Close</Button>
-                    <Button variant="success" onClick={handleSave}>Save</Button>
+                    <Button variant="success" onClick={handleSubmit(handleSave)}>Save</Button>
                 </>
         } />
     )

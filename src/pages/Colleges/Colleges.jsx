@@ -39,8 +39,12 @@ export default function Colleges() {
     const [sendHTTP, httpRes] = useHTTP();
     useEffect(() => {
         document.title = "CWP - Colleges"
-        sendHTTP('/colleges', 'GET');
+        refresh();
     }, [])
+
+    function refresh() {
+        sendHTTP('/colleges', 'GET');
+    }
 
     return (
         <div className='Colleges' >
@@ -82,7 +86,7 @@ export default function Colleges() {
                     </tbody>
                 </Table>
             </Container>
-            <CollegesModal show={showModal} setShow={setShowModal} selectedCollege={selectedCollege} />
+            <CollegesModal show={showModal} setShow={setShowModal} selectedCollege={selectedCollege} refresh={refresh} />
         </div>
     )
 }

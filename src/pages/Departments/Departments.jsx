@@ -18,11 +18,32 @@ export default function Departments() {
         ""
     ]
 
-    const [sendHTTP, httpRes] = useHTTP();
+    const [selectedDepartment, setSelectedDepartment] = useState({})
 
+    const handleShowDelete = (department) => {
+        setSelectedDepartment(department)
+        setShowModal("delete")
+    }
+
+    const handleShowEdit = (department) => {
+        setSelectedDepartment(department)
+        setShowModal("edit")
+    }
+
+    const handleShowView = (department) => {
+        setSelectedDepartment(department)
+        setShowModal("view")
+    }
+
+    const [sendHTTP, httpRes] = useHTTP();
     useEffect(() => {
-        sendHTTP('/departments', 'GET');
+        document.title = "CWP - Departments"
+        refresh();
     }, [])
+
+    function refresh() {
+        sendHTTP('/departments', 'GET');
+    }
 
     return (
         <div className='Departments'>
@@ -42,8 +63,9 @@ export default function Departments() {
                         </tr>
                     </thead>
                     <tbody>
-                        {console.log("🍅 departments", httpRes)}
-                        {httpRes?.data?.map((department, i) => {
+                        {httpRes?.loading && <tr><td colSpan="5">Loading...</td></tr>}
+                        {httpRes?.error && <tr><td colSpan="5">Error Happened</td></tr>}
+                        {httpRes?.data && httpRes?.data?.data?.map((department, i) => {
                             return (
                                 <tr key={i}>
                                     <td>{department.id}</td>
@@ -53,9 +75,9 @@ export default function Departments() {
                                     <td>{department.updated_at}</td>
                                     <td>
                                         <div className="actionBtns">
-                                            <Button variant="success" onClick={() => setShowModal("show")}><FaEye /></Button>
-                                            <Button variant="primary" onClick={() => setShowModal("edit")}><FaPen /></Button>
-                                            <Button variant="danger" onClick={() => setShowModal("delete")}><FaTrash /></Button>
+                                            <Button variant="success" onClick={() => handleShowView(department)}><FaEye /></Button>
+                                            <Button variant="primary" onClick={() => handleShowEdit(department)}><FaPen /></Button>
+                                            <Button variant="danger" onClick={() => handleShowDelete(department)}><FaTrash /></Button>
                                         </div>
                                     </td>
                                 </tr>
@@ -64,7 +86,7 @@ export default function Departments() {
                     </tbody>
                 </Table>
             </Container>
-            <DepartmentsModal show={showModal} setShow={setShowModal} />
+            <DepartmentsModal show={showModal} setShow={setShowModal} selectedDepartment={selectedDepartment} refresh={refresh} />
         </div>
     )
 }
