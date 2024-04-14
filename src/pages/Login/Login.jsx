@@ -1,29 +1,37 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import "./Login.scss"
-import { FaUser, FaLock } from "react-icons/fa"
-import { Form } from 'react-bootstrap'
+import {useNavigate} from 'react-router-dom'
+import useHTTP from '../../hooks/useHTTP'
+import { useForm } from 'react-hook-form'
+import FormInput from '../../components/FormInput/FormInput'
 
 export default function Login() {
+    const navigate = useNavigate();
+    const [sendHTTP, httpRes] = useHTTP();
+
+    const { reset, register, handleSubmit } = useForm();
+
+    const handleLogin = async (data) => {
+        sendHTTP('/auth/login', 'POST', data);
+    }
+    useEffect(() => {
+        console.log(httpRes)
+        if (httpRes?.data) {
+            localStorage.setItem('user',JSON.stringify(httpRes.data));
+            navigate('/home')
+        }
+
+        else if (httpRes?.error) {
+            alert('Invalid email or password')
+        }
+    }, [httpRes?.data, httpRes?.error])
     return (
         <div className='Login'>
             <form>
                 <h1>Login</h1>
-                <div className="input-box">
-                    <Form.Control type="text" placeholder='Username' required />
-                    <FaUser className='icon' />
-                </div>
-                <div className="input-box">
-                    <Form.Control type="Password" placeholder='Password' required />
-                    <FaLock className='icon' />
-                </div>
-                <div className="remember-forget">
-                    <label htmlFor="checkbox">Remember me</label>
-                    <a href="#" Forgot Password></a>
-                </div>
-                <button type='submit'>Login</button>
-                <div className="register-link">
-                    <p>Don't have an account? <a href="#">Register</a></p>
-                </div>
+                <FormInput name="email" type="text" label="Email" register={register}/>
+                <FormInput name="password" type="text" label="Password" register={register}/>
+                <button onClick={handleSubmit(handleLogin)}>Login</button>
             </form>
         </div>
     )

@@ -48,11 +48,10 @@ export default function TeachersModal({ show, setShow, selectedTeacher, refresh 
                 <form className="d-flex flex-column gap-2">
                     <FormInput name="first_name" type="text" label="First_name" register={register} disabled={show === "view"} />
                     <FormInput name="last_name" type="text" label="Last_name" register={register} disabled={show === "view"} />
-                    <FormInput name="email" type="email" label="Email" register={register} disabled={show === "view"} />
+                    <FormInput name="email" type="email" label="Email" register={register} disabled={show === "view"}/>
                     <FormInput name="phone_number" type="number" label="Phone_number" register={register} disabled={show === "view"} />
                     <FormInput name="note" type="text" label="Note" register={register} disabled={show === "view"} />
                 </form>
-
         } footer={
             show === "delete" ?
                 <>

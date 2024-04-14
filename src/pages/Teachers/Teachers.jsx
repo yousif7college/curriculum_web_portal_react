@@ -11,7 +11,7 @@ import useHTTP from '../../hooks/useHTTP'
 export default function Teachers() {
     const [showModal, setShowModal] = useState(false)
     const headers = [
-        "Teacher_id",
+        "id",
         "First_name",
         "Last_name",
         "Email",
@@ -21,7 +21,7 @@ export default function Teachers() {
         "Updated_at",
         ""
     ]
-
+    const isLogin = localStorage.getItem('user')
     const [selectedTeacher, setSelectedTeacher] = useState({})
 
     const handleShowDelete = (teacher) => {
@@ -38,6 +38,9 @@ export default function Teachers() {
         setSelectedTeacher(teacher)
         setShowModal("view")
     }
+    const handleEmailClick = (email) => {
+        window.location.href = `mailto:${email}`;
+    };
 
     const [sendHTTP, httpRes] = useHTTP();
     useEffect(() => {
@@ -54,7 +57,7 @@ export default function Teachers() {
 
             <Container className="mt-5">
                 <div className="mb-3 d-flex gap-2">
-                    <Button variant="primary" onClick={() => setShowModal("add")}>Add</Button>
+                    {isLogin && <Button variant="primary" onClick={() => setShowModal("add")}>Add</Button>}
                 </div>
                 <Table striped bordered responsive hover>
                     <thead>
@@ -74,7 +77,9 @@ export default function Teachers() {
                                     <td>{teacher.id}</td>
                                     <td>{teacher.first_name}</td>
                                     <td>{teacher.last_name}</td>
-                                    <td>{teacher.email}</td>
+                                    <td>
+                                        <a href="#" onClick={() => handleEmailClick(teacher.email)}>{teacher.email}</a>
+                                    </td>
                                     <td>{teacher.phone_number}</td>
                                     <td>{teacher.note}</td>
                                     <td>{teacher.created_at}</td>
@@ -82,8 +87,8 @@ export default function Teachers() {
                                     <td>
                                         <div className="actionBtns">
                                             <Button variant="success" onClick={() => handleShowView(teacher)}><FaEye /></Button>
-                                            <Button variant="primary" onClick={() => handleShowEdit(teacher)}><FaPen /></Button>
-                                            <Button variant="danger" onClick={() => handleShowDelete(teacher)}><FaTrash /></Button>
+                                            {isLogin && <Button variant="primary" onClick={() => handleShowEdit(teacher)}><FaPen /></Button>}
+                                            {isLogin && <Button variant="danger" onClick={() => handleShowDelete(teacher)}><FaTrash /></Button>}
                                         </div>
                                     </td>
                                 </tr>

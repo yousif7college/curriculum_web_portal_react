@@ -39,7 +39,7 @@ export default function CoursesModal({ show, setShow, selectedCourse, refresh })
 
     useEffect(() => {
         if (show === "add") {
-            reset({ code: "", department_id: "", teacher_id: "", type: "theoretical", stage: "1", units: 0, duration_weeks: 0, title_english: "", title_arabic: "", language: "", year_of_study: 0, practical_marks: 0, theoretical_marks: 0, coordinator_name: "", office_hours: 0, schedule: new Date().toISOString().split('T')[0], lecture_room: "", virtual_classroom: "", note: "" })
+            reset({ code: "", file_url: "",department_id: "", teacher_id: "", type: "theoretical", stage: "1", units: 0, duration_weeks: 0, title_english: "", title_arabic: "", language: "", year_of_study: 0, practical_marks: 0, theoretical_marks: 0, coordinator_name: "", office_hours: 0, schedule: new Date().toISOString().split('T')[0], lecture_room: "", virtual_classroom: "", note: "" })
         } else {
             reset(selectedCourse)
         }
@@ -57,6 +57,9 @@ export default function CoursesModal({ show, setShow, selectedCourse, refresh })
                 :
                 <form className="d-flex flex-column gap-2">
                     <FormInput name="code" type="text" label="Code" register={register} disabled={show === "view"} />
+                    {show === "view"
+                        ? <a href={selectedCourse?.file_url} target="_blank" rel="noreferrer">View File</a>
+                        : <FormInput name="file_url" type="text" label="File URL" register={register} />}
                     <FormInput name="department_id" type="select" label="Department" options={departments} register={register} disabled={show === "view"} />
                     <FormInput name="teacher_id" type="select" label="Teacher" options={teachers} register={register} disabled={show === "view"} />
                     <FormInput name="type" type="select" options={getOptions("courseType")} label="Type" register={register} disabled={show === "view"} />

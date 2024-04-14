@@ -23,7 +23,7 @@ export default function Courses() {
         "Updated_at",
         ""
     ]
-
+    const isLogin = localStorage.getItem('user')
     const [selectedCourse, setSelectedCourse] = useState({})
 
     const handleShowDelete = (course) => {
@@ -57,7 +57,8 @@ export default function Courses() {
             <MyBanner title="Courses" img={coursesImg} icon={<BsBook />} />
             <Container className="mt-5">
                 <div className="mb-3 d-flex gap-2">
-                    <Button variant="primary" onClick={() => setShowModal("add")}>Add</Button>
+                    {isLogin && <Button variant="primary" onClick={() => setShowModal("add")}>Add</Button>}
+
                 </div>
                 <Table striped bordered responsive hover>
                     <thead>
@@ -88,8 +89,8 @@ export default function Courses() {
                                     <td>
                                         <div className="actionBtns">
                                             <Button variant="success" onClick={() => handleShowView(course)}><FaEye /></Button>
-                                            <Button variant="primary" onClick={() => handleShowEdit(course)}><FaPen /></Button>
-                                            <Button variant="danger" onClick={() => handleShowDelete(course)}><FaTrash /></Button>
+                                            {isLogin && <Button variant="primary" onClick={() => handleShowEdit(course)}><FaPen /></Button>}
+                                            {isLogin && <Button variant="danger" onClick={() => handleShowDelete(course)}><FaTrash /></Button>}
                                         </div>
                                     </td>
                                 </tr>

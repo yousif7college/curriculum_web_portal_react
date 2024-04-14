@@ -1,4 +1,4 @@
-import React, {useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import "./Users.scss"
 import MyBanner from '../../components/MyBanner/MyBanner'
 import coursesImg from '../../assets/images/homeBg.jpg'
@@ -11,14 +11,13 @@ import useHTTP from '../../hooks/useHTTP'
 export default function Users() {
     const [showModal, setShowModal] = useState(false)
     const headers = [
-        "User_id",
+        "id",
         "First_name",
         "Last_name",
         "Email",
         "Password",
         "Edge",
         "Gender",
-        "Note",
         "Created_at",
         "Updated_at",
         ""
@@ -40,6 +39,9 @@ export default function Users() {
         setSelectedUser(user)
         setShowModal("view")
     }
+    const handleEmailClick = (email) => {
+        window.location.href = `mailto:${email}`;
+    };
 
     const [sendHTTP, httpRes] = useHTTP();
     useEffect(() => {
@@ -76,11 +78,12 @@ export default function Users() {
                                     <td>{user.id}</td>
                                     <td>{user.first_name}</td>
                                     <td>{user.last_name}</td>
-                                    <td>{user.email}</td>
+                                    <td>
+                                        <a href="#" onClick={() => handleEmailClick(user.email)}>{user.email}</a>
+                                    </td>
                                     <td>{user.password}</td>
                                     <td>{user.age}</td>
                                     <td>{user.gender}</td>
-                                    <td>{user.note}</td>
                                     <td>{user.created_at}</td>
                                     <td>{user.updated_at}</td>
                                     <td>

@@ -1,19 +1,21 @@
 .Login {
+    background-image: url(../../assets/images/2.9.jpg);
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-image: url(../../assets/images/main2.jpg); // خلفية الصفحة
     background-size: cover;
     background-position: center;
     
     form {
         margin: 0 2rem;
         width: 25rem;
-        background-color: rgba(255, 255, 255, 0.8); // خلفية النموذج شفافة
+        background-color: rgba(25, 30, 30, 0.3); // خلفية النموذج شفافة
         padding: 30px;
         border-radius: 50px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); // ظل
+        margin-right: -20cm;
+        color: #fff;
 
         h1 {
             text-align: center;

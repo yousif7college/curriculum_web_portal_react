@@ -17,7 +17,7 @@ export default function Departments() {
         "Updated_at",
         ""
     ]
-
+    const isLogin = localStorage.getItem('user')
     const [selectedDepartment, setSelectedDepartment] = useState({})
 
     const handleShowDelete = (department) => {
@@ -50,7 +50,8 @@ export default function Departments() {
             <MyBanner title="Dapartments" img={coursesImg} />
             <Container className="mt-5">
                 <div className="mb-3 d-flex gap-2">
-                    <Button variant="primary" onClick={() => setShowModal("add")}>Add</Button>
+                    {isLogin && <Button variant="primary" onClick={() => setShowModal("add")}>Add</Button>}
+                    
                 </div>
                 <Table striped bordered responsive hover>
                     <thead>
@@ -76,8 +77,8 @@ export default function Departments() {
                                     <td>
                                         <div className="actionBtns">
                                             <Button variant="success" onClick={() => handleShowView(department)}><FaEye /></Button>
-                                            <Button variant="primary" onClick={() => handleShowEdit(department)}><FaPen /></Button>
-                                            <Button variant="danger" onClick={() => handleShowDelete(department)}><FaTrash /></Button>
+                                            {isLogin && <Button variant="primary" onClick={() => handleShowEdit(department)}><FaPen /></Button>}
+                                            {isLogin && <Button variant="danger" onClick={() => handleShowDelete(department)}><FaTrash /></Button>}
                                         </div>
                                     </td>
                                 </tr>

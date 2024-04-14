@@ -18,7 +18,7 @@ export default function Colleges() {
         "Updated_at",
         ""
     ]
-
+    const isLogin = localStorage.getItem('user')
     const [selectedCollege, setSelectedCollege] = useState({})
 
     const handleShowDelete = (college) => {
@@ -52,7 +52,7 @@ export default function Colleges() {
 
             <Container className="mt-5">
                 <div className="mb-3 d-flex gap-2">
-                    <Button variant="primary" onClick={() => setShowModal("add")}>Add</Button>
+                    {isLogin && <Button variant="primary" onClick={() => setShowModal("add")}>Add</Button>}
                 </div>
                 <Table striped bordered responsive hover>
                     <thead>
@@ -76,8 +76,8 @@ export default function Colleges() {
                                     <td>
                                         <div className="actionBtns">
                                             <Button variant="success" onClick={() => handleShowView(college)}><FaEye /></Button>
-                                            <Button variant="primary" onClick={() => handleShowEdit(college)}><FaPen /></Button>
-                                            <Button variant="danger" onClick={() => handleShowDelete(college)}><FaTrash /></Button>
+                                            {isLogin && <Button variant="primary" onClick={() => handleShowEdit(college)}><FaPen /></Button> }
+                                            {isLogin && <Button variant="danger" onClick={() => handleShowDelete(college)}><FaTrash /></Button>}
                                         </div>
                                     </td>
                                 </tr>
