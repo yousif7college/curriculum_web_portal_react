@@ -31,14 +31,13 @@ export default function MyNavbar() {
                     <Link to="/courses">courses<hr /></Link>
                     <Link to="/teachers">teachers<hr /></Link>
                     {isLogin && <Link to="/users">Users<hr /></Link>}
-                    
+
 
                 </div>
             </div>
             <div className="right-side">
                 {!isLogin ? <Button variant="outline-light" onClick={handleLogin}>Login</Button>
                     : <Button variant="outline-light" onClick={handleLogout}>Logout</Button>}
-                <Image src={logo} />
             </div>
         </nav>
     )

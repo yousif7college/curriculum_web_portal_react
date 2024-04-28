@@ -6,6 +6,7 @@ import { Button, Container, Table } from 'react-bootstrap'
 import DepartmentsModal from './DepartmentsModal'
 import { FaEye, FaPen, FaTrash } from 'react-icons/fa'
 import useHTTP from '../../hooks/useHTTP'
+import { Link } from 'react-router-dom'
 
 export default function Departments() {
     const [showModal, setShowModal] = useState(false)
@@ -51,7 +52,7 @@ export default function Departments() {
             <Container className="mt-5">
                 <div className="mb-3 d-flex gap-2">
                     {isLogin && <Button variant="primary" onClick={() => setShowModal("add")}>Add</Button>}
-                    
+
                 </div>
                 <Table striped bordered responsive hover>
                     <thead>
@@ -70,7 +71,7 @@ export default function Departments() {
                             return (
                                 <tr key={i}>
                                     <td>{department.id}</td>
-                                    <td>{department.name}</td>
+                                    <td><Link to={`/courses?department_id=${department.id}`}>{department.name}</Link></td>
                                     <td>{department.college_id}</td>
                                     <td>{department.created_at}</td>
                                     <td>{department.updated_at}</td>

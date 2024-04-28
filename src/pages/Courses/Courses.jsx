@@ -7,8 +7,11 @@ import CoursesModal from './CoursesModal'
 import { FaEye, FaPen, FaTrash } from 'react-icons/fa'
 import { BsBook } from "react-icons/bs";
 import useHTTP from '../../hooks/useHTTP'
+import { useSearchParams } from 'react-router-dom'
 
 export default function Courses() {
+    const getSearchParam = useSearchParams()
+
     const [showModal, setShowModal] = useState(false)
     const headers = [
         "id",
@@ -48,7 +51,11 @@ export default function Courses() {
     }, [])
 
     function refresh() {
-        sendHTTP('/courses', 'GET');
+        if (getSearchParam[0].size === 0) {
+            sendHTTP('/courses', 'GET');
+        } else {
+            sendHTTP(`/courses?department_id=${getSearchParam[0].get('department_id')}`, 'GET');
+        }
     }
 
 
